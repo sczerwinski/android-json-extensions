@@ -35,6 +35,13 @@ fun jsonArrayOf(vararg elements: Any): JSONArray = JSONArray(listOf(*elements))
 fun String.parseJsonArray(): JSONArray = JSONArray(this)
 
 /**
+ * Creates a copy of the JSON array.
+ *
+ * @return A copy of the JSON array.
+ */
+fun JSONArray.copy(): JSONArray = jsonArrayOf(*toList().toTypedArray())
+
+/**
  * Last index of the JSON array.
  */
 val JSONArray.lastIndex: Int
