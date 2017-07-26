@@ -27,7 +27,7 @@ class JSONArrayTest {
 		// given:
 		val jsonArray: JSONArray = jsonArrayOf("abc", "def", "ghi")
 		// when:
-		val list: List<Any?> = jsonArray.toNullableList()
+		val list: List<Any?> = jsonArray.toList()
 		// then:
 		assertEquals(listOf("abc", "def", "ghi"), list)
 	}
@@ -38,7 +38,7 @@ class JSONArrayTest {
 		// given:
 		val jsonArray: JSONArray = jsonArrayOf("abc", JSONObject.NULL, "ghi")
 		// when:
-		val list: List<Any?> = jsonArray.toNullableList()
+		val list: List<Any?> = jsonArray.toList()
 		// then:
 		assertEquals(listOf("abc", null, "ghi"), list)
 	}
@@ -49,7 +49,7 @@ class JSONArrayTest {
 		// given:
 		val jsonArray: JSONArray = jsonArrayOf("abc", "def", "ghi")
 		// when:
-		val list: List<Any?> = jsonArray.toList()
+		val list: List<Any?> = jsonArray.toListNotNull()
 		// then:
 		assertEquals(listOf("abc", "def", "ghi"), list)
 	}
@@ -60,7 +60,7 @@ class JSONArrayTest {
 		// given:
 		val jsonArray: JSONArray = jsonArrayOf("abc", JSONObject.NULL, "ghi")
 		// when:
-		val list: List<Any?> = jsonArray.toList()
+		val list: List<Any?> = jsonArray.toListNotNull()
 		// then:
 		assertEquals(listOf("abc", "ghi"), list)
 	}

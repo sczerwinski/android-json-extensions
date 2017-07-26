@@ -29,7 +29,7 @@ class JSONArrayLambdasTest {
 		// given:
 		val jsonArray = jsonArrayOf(1, JSONObject.NULL, 3)
 		// when:
-		val result: List<String> = jsonArray.mapNullable {
+		val result: List<String> = jsonArray.map {
 			it?.toString() ?: "null"
 		}
 		// then:
@@ -42,7 +42,7 @@ class JSONArrayLambdasTest {
 		// given:
 		val jsonArray = jsonArrayOf(1, 2, 3)
 		// when:
-		val result: List<String> = jsonArray.map {
+		val result: List<String> = jsonArray.mapNotNull {
 			it.toString()
 		}
 		// then:
@@ -55,7 +55,7 @@ class JSONArrayLambdasTest {
 		// given:
 		val jsonArray = jsonArrayOf(1, JSONObject.NULL, 3)
 		// when:
-		val result: List<String> = jsonArray.map {
+		val result: List<String> = jsonArray.mapNotNull {
 			it.toString()
 		}
 		// then:

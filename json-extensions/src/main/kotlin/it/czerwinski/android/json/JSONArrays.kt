@@ -39,7 +39,7 @@ fun String.parseJsonArray(): JSONArray = JSONArray(this)
  *
  * @return A copy of the JSON array.
  */
-fun JSONArray.copy(): JSONArray = jsonArrayOf(*toList().toTypedArray())
+fun JSONArray.copy(): JSONArray = jsonArrayOf(*toListNotNull().toTypedArray())
 
 /**
  * Last index of the JSON array.
@@ -52,7 +52,7 @@ val JSONArray.lastIndex: Int
  *
  * @return List of elements of the JSON array.
  */
-fun JSONArray.toNullableList(): List<Any?> =
+fun JSONArray.toList(): List<Any?> =
 		(0..lastIndex).map {
 			getNullable(it)
 		}
@@ -64,10 +64,10 @@ private fun JSONArray.getNullable(it: Int): Any? =
 /**
  * Converts the JSON array to a list with non-null elements.
  *
- * @return List of elements of the JSON array.
+ * @return List of non-null elements of the JSON array.
  */
-fun JSONArray.toList(): List<Any> =
-		toNullableList().filterNotNull()
+fun JSONArray.toListNotNull(): List<Any> =
+		toList().filterNotNull()
 
 /**
  * Executes the action on each element of the JSON array.
@@ -87,8 +87,8 @@ fun JSONArray.forEach(action: (Any?) -> Unit) {
  *
  * @return List of mapped elements.
  */
-fun <T> JSONArray.mapNullable(transform: (Any?) -> T): List<T> =
-		toNullableList().map(transform)
+fun <T> JSONArray.map(transform: (Any?) -> T): List<T> =
+		toList().map(transform)
 
 /**
  * Transforms non-null elements of JSON array.
@@ -97,8 +97,8 @@ fun <T> JSONArray.mapNullable(transform: (Any?) -> T): List<T> =
  *
  * @return List of mapped elements.
  */
-fun <T> JSONArray.map(transform: (Any) -> T): List<T> =
-		toList().map(transform)
+fun <T> JSONArray.mapNotNull(transform: (Any) -> T): List<T> =
+		toListNotNull().map(transform)
 
 /**
  * Adds an element to the JSON array.
