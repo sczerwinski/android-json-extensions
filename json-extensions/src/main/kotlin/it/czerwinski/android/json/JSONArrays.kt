@@ -105,6 +105,18 @@ fun <T> JSONArray.mapNotNull(transform: (Any) -> T): List<T> =
 		toListNotNull().map(transform)
 
 /**
+ * Transforms elements of JSON array to JSON arrays and flattens the result.
+ *
+ * @param transform Mapping function.
+ *
+ * @return Flattened JSON array of mapped elements.
+ */
+fun JSONArray.flatMap(transform: (Any?) -> JSONArray): JSONArray =
+		map(transform).reduce { accumulator, next ->
+			accumulator + next
+		}
+
+/**
  * Adds an element to the JSON array.
  *
  * @param element New element.

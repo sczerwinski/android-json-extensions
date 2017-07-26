@@ -1,6 +1,7 @@
 package it.czerwinski.android.json
 
 import android.support.test.runner.AndroidJUnit4
+import org.json.JSONArray
 import org.json.JSONObject
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -60,5 +61,19 @@ class JSONArrayLambdasTest {
 		}
 		// then:
 		assertEquals(listOf("1", "3"), result)
+	}
+
+	@Test
+	@Throws(Exception::class)
+	fun shouldFlatMapJSONArrayElements() {
+		// given:
+		val jsonArray = jsonArrayOf(1, 2, JSONObject.NULL, 3)
+		// when:
+		val result: JSONArray = jsonArray.flatMap { element ->
+			val value = element?.toString()?.toInt() ?: 1
+			jsonArrayOf(*(1..value).map { element?.toString() ?: "null" }.toTypedArray())
+		}
+		// then:
+		assertEquals(jsonArrayOf("1", "2", "2", "null", "3", "3", "3"), result)
 	}
 }
