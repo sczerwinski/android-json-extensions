@@ -99,3 +99,27 @@ fun <T> JSONArray.mapNullable(transform: (Any?) -> T): List<T> =
  */
 fun <T> JSONArray.map(transform: (Any) -> T): List<T> =
 		toList().map(transform)
+
+/**
+ * Adds an element to the JSON array.
+ *
+ * @param element New element.
+ *
+ * @return JSON array containing the new element.
+ */
+operator fun JSONArray.plus(element: Any): JSONArray =
+		copy().apply {
+			put(element)
+		}
+
+/**
+ * Adds two JSON arrays.
+ *
+ * @param that Second JSON array.
+ *
+ * @return JSON array containing elements of both JSON arrays.
+ */
+operator fun JSONArray.plus(that: JSONArray): JSONArray =
+		copy().apply {
+			that.forEach { put(it) }
+		}
