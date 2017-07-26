@@ -74,4 +74,8 @@ private fun JSONObject.getNullable(name: String): Any? =
  * @return List of non-null elements of the JSON array.
  */
 fun JSONObject.toMapNotNull(): Map<String, Any> =
-		toMap().filterValues { it != null }.mapValues { it.value ?: throw NullPointerException() }
+		toMap().filterValues {
+			it != null
+		}.mapValues {
+			it.value ?: throw NullPointerException()
+		}
