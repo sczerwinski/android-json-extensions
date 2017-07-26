@@ -3,6 +3,7 @@ package it.czerwinski.android.json
 import android.support.test.runner.AndroidJUnit4
 import org.json.JSONObject
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotSame
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -85,5 +86,41 @@ class JSONObjectsCreationTest {
 		assertEquals(2, jsonObject.length())
 		assertEquals(17, jsonObject.getInt("id"))
 		assertEquals("Hello World", jsonObject.getString("text"))
+	}
+
+	@Test
+	@Throws(Exception::class)
+	fun shouldCreateACopyOfJSONObject() {
+		// given:
+		val jsonObject = jsonOf(
+				"id" to 17,
+				"text" to "Hello World",
+				"numbers" to jsonArrayOf(1, 2, 3))
+		// when:
+		val copy: JSONObject = jsonObject.copy()
+		// then:
+		assertEquals(3, copy.length())
+		assertEquals(17, copy.getInt("id"))
+		assertEquals("Hello World", copy.getString("text"))
+		assertEquals(jsonArrayOf(1, 2, 3), copy.getJSONArray("numbers"))
+		assertNotSame(jsonObject, copy)
+	}
+
+	@Test
+	@Throws(Exception::class)
+	fun shouldCreateACopyOfJSONObjectWithNulls() {
+		// given:
+		val jsonObject = jsonOf(
+				"id" to 17,
+				"text" to "Hello World",
+				"numbers" to JSONObject.NULL)
+		// when:
+		val copy: JSONObject = jsonObject.copy()
+		// then:
+		assertEquals(3, copy.length())
+		assertEquals(17, copy.getInt("id"))
+		assertEquals("Hello World", copy.getString("text"))
+		assertEquals(JSONObject.NULL, copy.get("numbers"))
+		assertNotSame(jsonObject, copy)
 	}
 }

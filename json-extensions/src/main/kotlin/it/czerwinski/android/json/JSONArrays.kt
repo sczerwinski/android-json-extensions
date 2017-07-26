@@ -61,9 +61,9 @@ fun JSONArray.toList(): List<Any?> =
 			getNullable(it)
 		}
 
-private fun JSONArray.getNullable(it: Int): Any? =
-		if (isNull(it)) null
-		else get(it)
+private fun JSONArray.getNullable(index: Int): Any? =
+		if (isNull(index)) null
+		else get(index)
 
 /**
  * Converts the JSON array to a list with non-null elements.

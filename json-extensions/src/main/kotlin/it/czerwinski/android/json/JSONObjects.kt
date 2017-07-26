@@ -42,3 +42,36 @@ fun jsonOf(map: Map<*, *>): JSONObject = JSONObject(map)
  * @return JSON object.
  */
 fun String.parseJson(): JSONObject = JSONObject(this)
+
+/**
+ * Creates a copy of the JSON object.
+ *
+ * @return A copy of the JSON object.
+ */
+fun JSONObject.copy(): JSONObject = jsonOf(toMap())
+
+/**
+ * Names of JSON object values.
+ */
+val JSONObject.names: List<String>
+	get() = keys().asSequence().toList()
+
+/**
+ * Converts the JSON object to a map with its nullable values.
+ *
+ * @return Map of name-value pairs.
+ */
+fun JSONObject.toMap(): Map<String, Any?> =
+		mapOf(*names.map { it to getNullable(it) }.toTypedArray())
+
+private fun JSONObject.getNullable(name: String): Any? =
+		if (isNull(name)) null
+		else get(name)
+
+/**
+ * Converts the JSON array to a list with non-null elements.
+ *
+ * @return List of non-null elements of the JSON array.
+ */
+fun JSONObject.toMapNotNull(): Map<String, Any> =
+		toMap().filterValues { it != null }.mapValues { it.value ?: throw NullPointerException() }
