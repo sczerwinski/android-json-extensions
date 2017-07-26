@@ -1,6 +1,7 @@
 package it.czerwinski.android.json
 
 import org.json.JSONArray
+import org.json.JSONObject
 
 /**
  * Creates an empty JSON array.
@@ -39,7 +40,10 @@ fun String.parseJsonArray(): JSONArray = JSONArray(this)
  *
  * @return A copy of the JSON array.
  */
-fun JSONArray.copy(): JSONArray = jsonArrayOf(*toListNotNull().toTypedArray())
+fun JSONArray.copy(): JSONArray = jsonArrayOf(
+		*toList().map {
+			it ?: JSONObject.NULL
+		}.toTypedArray())
 
 /**
  * Last index of the JSON array.

@@ -2,6 +2,7 @@ package it.czerwinski.android.json
 
 import android.support.test.runner.AndroidJUnit4
 import org.json.JSONArray
+import org.json.JSONObject
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotSame
 import org.junit.Test
@@ -64,6 +65,18 @@ class JSONArraysCreationTest {
 	fun shouldCreateACopyOfJSONArray() {
 		// given:
 		val jsonArray = jsonArrayOf(1, 2, 3)
+		// when:
+		val copy: JSONArray = jsonArray.copy()
+		// then:
+		assertEquals(jsonArray, copy)
+		assertNotSame(jsonArray, copy)
+	}
+
+	@Test
+	@Throws(Exception::class)
+	fun shouldCreateACopyOfJSONArrayWithNulls() {
+		// given:
+		val jsonArray = jsonArrayOf(1, JSONObject.NULL, 3)
 		// when:
 		val copy: JSONArray = jsonArray.copy()
 		// then:
