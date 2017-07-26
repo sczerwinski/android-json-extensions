@@ -74,6 +74,15 @@ fun JSONArray.toListNotNull(): List<Any> =
 		toList().filterNotNull()
 
 /**
+ * Converts the JSON array to a list of elements of given type.
+ *
+ * @return List of typed elements of the JSON array.
+ */
+inline fun <reified T> JSONArray.toListOf(): List<T?> = map {
+	it?.convertTo<T>()
+}
+
+/**
  * Executes the action on each element of the JSON array.
  *
  * @param action Action to be executed.

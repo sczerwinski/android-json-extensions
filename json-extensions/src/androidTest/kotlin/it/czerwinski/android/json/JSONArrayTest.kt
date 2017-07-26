@@ -64,4 +64,50 @@ class JSONArrayTest {
 		// then:
 		assertEquals(listOf("abc", "ghi"), list)
 	}
+
+	@Test
+	@Throws(Exception::class)
+	fun shouldConvertJSONArrayToListOfStrings() {
+		// given:
+		val jsonArray: JSONArray = jsonArrayOf("abc", "def", "ghi")
+		// when:
+		val list: List<String?> = jsonArray.toListOf<String>()
+		// then:
+		assertEquals(listOf("abc", "def", "ghi"), list)
+	}
+
+	@Test
+	@Throws(Exception::class)
+	fun shouldConvertJSONArrayToListOfIntegers() {
+		// given:
+		val jsonArray: JSONArray = jsonArrayOf("1", "2", "3")
+		// when:
+		val list: List<Int?> = jsonArray.toListOf<Int>()
+		// then:
+		assertEquals(listOf(1, 2, 3), list)
+	}
+
+	@Test
+	@Throws(Exception::class)
+	fun shouldConvertJSONArrayToListOfCustomObjects() {
+		// given:
+		data class StringWrapper(val text: String)
+		val jsonArray: JSONArray = jsonArrayOf("abc", "def", "ghi")
+		// when:
+		val list: List<StringWrapper?> = jsonArray.toListOf<StringWrapper>()
+		// then:
+		assertEquals(listOf(StringWrapper("abc"), StringWrapper("def"), StringWrapper("ghi")), list)
+	}
+
+	@Test
+	@Throws(Exception::class)
+	fun shouldReturnListOfNullsWhenConvertingJSONArrayToIncompatibleType() {
+		// given:
+		data class StringWrapper(val text: String)
+		val jsonArray: JSONArray = jsonArrayOf(1, 2, 3)
+		// when:
+		val list: List<StringWrapper?> = jsonArray.toListOf<StringWrapper>()
+		// then:
+		assertEquals(listOf(null, null, null), list)
+	}
 }
