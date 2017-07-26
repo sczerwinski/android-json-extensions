@@ -47,9 +47,12 @@ val JSONArray.lastIndex: Int
  */
 fun JSONArray.toNullableList(): List<Any?> =
 		(0..lastIndex).map {
-			if (isNull(it)) null
-			else get(it)
+			getNullable(it)
 		}
+
+private fun JSONArray.getNullable(it: Int): Any? =
+		if (isNull(it)) null
+		else get(it)
 
 /**
  * Converts the JSON array to a list with non-null elements.
@@ -58,3 +61,34 @@ fun JSONArray.toNullableList(): List<Any?> =
  */
 fun JSONArray.toList(): List<Any> =
 		toNullableList().filterNotNull()
+
+/**
+ * Executes the action on each element of the JSON array.
+ *
+ * @param action Action to be executed.
+ */
+fun JSONArray.forEach(action: (Any?) -> Unit) {
+	(0..lastIndex).forEach {
+		action(getNullable(it))
+	}
+}
+
+/**
+ * Transforms nullable elements of JSON array.
+ *
+ * @param transform Mapping function.
+ *
+ * @return List of mapped elements.
+ */
+fun <T> JSONArray.mapNullable(transform: (Any?) -> T): List<T> =
+		toNullableList().map(transform)
+
+/**
+ * Transforms non-null elements of JSON array.
+ *
+ * @param transform Mapping function.
+ *
+ * @return List of mapped elements.
+ */
+fun <T> JSONArray.map(transform: (Any) -> T): List<T> =
+		toList().map(transform)
