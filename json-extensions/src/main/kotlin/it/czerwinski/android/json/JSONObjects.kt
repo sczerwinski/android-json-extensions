@@ -69,9 +69,9 @@ private fun JSONObject.getNullable(name: String): Any? =
 		else get(name)
 
 /**
- * Converts the JSON array to a list with non-null elements.
+ * Converts the JSON object to a map with its non-null values.
  *
- * @return List of non-null elements of the JSON array.
+ * @return Map of non-null name-value pairs.
  */
 fun JSONObject.toMapNotNull(): Map<String, Any> =
 		toMap().filterValues {
@@ -79,3 +79,25 @@ fun JSONObject.toMapNotNull(): Map<String, Any> =
 		}.mapValues {
 			it.value ?: throw NullPointerException()
 		}
+
+/**
+ * Adds a name-value pair to the JSON object.
+ *
+ * @param pair New name-value pair.
+ *
+ * @return JSON object containing the new name-value pair.
+ */
+operator fun JSONObject.plus(pair: Pair<Any, Any>): JSONObject = copy().apply {
+	put(pair.first.toString(), pair.second)
+}
+
+/**
+ * Adds a map of name-value pair to the JSON object.
+ *
+ * @param map Map of new name-value pairs.
+ *
+ * @return JSON object containing the new name-value pairs.
+ */
+operator fun JSONObject.plus(map: Map<Any, Any>): JSONObject = copy().apply {
+	map.forEach { (name, value) -> put(name.toString(), value) }
+}
