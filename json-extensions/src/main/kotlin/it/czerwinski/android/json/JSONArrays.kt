@@ -33,3 +33,28 @@ fun jsonArrayOf(vararg elements: Any): JSONArray = JSONArray(listOf(*elements))
  * @return JSON array.
  */
 fun String.parseJsonArray(): JSONArray = JSONArray(this)
+
+/**
+ * Last index of the JSON array.
+ */
+val JSONArray.lastIndex: Int
+	get() = length() - 1
+
+/**
+ * Converts the JSON array to a list with nullable elements.
+ *
+ * @return List of elements of the JSON array.
+ */
+fun JSONArray.toNullableList(): List<Any?> =
+		(0..lastIndex).map {
+			if (isNull(it)) null
+			else get(it)
+		}
+
+/**
+ * Converts the JSON array to a list with non-null elements.
+ *
+ * @return List of elements of the JSON array.
+ */
+fun JSONArray.toList(): List<Any> =
+		toNullableList().filterNotNull()
