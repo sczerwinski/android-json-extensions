@@ -1,6 +1,7 @@
 package it.czerwinski.android.json
 
 import org.json.JSONObject
+import kotlin.reflect.KProperty
 
 /**
  * Creates an empty JSON object.
@@ -100,4 +101,19 @@ operator fun JSONObject.plus(pair: Pair<Any, Any>): JSONObject = copy().apply {
  */
 operator fun JSONObject.plus(map: Map<Any, Any>): JSONObject = copy().apply {
 	map.forEach { (name, value) -> put(name.toString(), value) }
+}
+
+/**
+ * Gets value of a delegated property from the JSON object.
+ *
+ * @param thisRef Reference to the object containing the property.
+ * @param property Delegated property.
+ *
+ * @return Value of the property.
+ */
+inline operator fun <reified T> JSONObject.getValue(thisRef: Any, property: KProperty<*>): T = try {
+	opt(property.name).convertTo<T>() as T
+} catch (e: NullPointerException) {
+	throw IllegalArgumentException(
+			"Value \"${property.name}\" with type ${T::class.java.name} not found")
 }
