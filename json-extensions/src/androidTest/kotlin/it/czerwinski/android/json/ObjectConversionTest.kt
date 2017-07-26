@@ -2,8 +2,7 @@ package it.czerwinski.android.json
 
 import android.support.test.runner.AndroidJUnit4
 import org.json.JSONObject
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertSame
+import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.util.ArrayList
@@ -43,8 +42,8 @@ class ObjectConversionTest {
 		// when:
 		val result = list.convertTo<ListWrapper>()
 		// then:
-		assertEquals(1, result.list.size)
-		assertEquals("text", result.list.first())
+		assertEquals(1, result?.list?.size)
+		assertEquals("text", result?.list?.first())
 	}
 
 	@Test
@@ -55,27 +54,31 @@ class ObjectConversionTest {
 		// when:
 		val result = json.convertTo<JSONObject>()
 		// then:
-		assertEquals(1, result.length())
-		assertEquals(13, result.getInt("id"))
+		assertEquals(1, result?.length())
+		assertEquals(13, result?.getInt("id"))
 	}
 
-	@Test(expected = IllegalArgumentException::class)
+	@Test
 	@Throws(Exception::class)
-	fun shouldThrowExceptionWhenNoSingleArgumentConstructorExists() {
+	fun shouldReturnNullWhenNoSingleArgumentConstructorExists() {
 		// given:
 		data class Point(val x: Int, val y: Int)
 		val number: Int = 13
 		// when:
 		val result = number.convertTo<Point>()
+		// then:
+		assertNull(result)
 	}
 
-	@Test(expected = IllegalArgumentException::class)
+	@Test
 	@Throws(Exception::class)
-	fun shouldThrowExceptionWhenConstructorParameterTypeDoesNotMatch() {
+	fun shouldReturnNullWhenConstructorParameterTypeDoesNotMatch() {
 		// given:
 		data class StringWrapper(val string: String)
 		val number: Int = 13
 		// when:
 		val result = number.convertTo<StringWrapper>()
+		// then:
+		assertNull(result)
 	}
 }
